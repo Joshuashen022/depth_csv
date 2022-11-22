@@ -61,7 +61,7 @@ impl OrderBookStore{
         let ask_len = self.asks.len();
         if ask_len > 20 {
             let mut asks = self.asks.clone();
-            let _ = asks.split_off(ask_len - 20);
+            let _ = asks.split_off(20);
             asks
         } else{
             self.asks.clone()
