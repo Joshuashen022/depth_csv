@@ -74,7 +74,7 @@ impl OrderBookStore{
             let mut bids = self.bids.clone();
             let _ = bids.split_off(20);
             let res = bids;
-            println!(" res first {:?}, last {:?}", res.first(), res.last());
+            
             res
         } else {
             self.bids.clone()
@@ -96,6 +96,7 @@ impl OrderBookStore{
         asks_string.pop();
 
         let bids = self.bids_20();
+        println!(" res first {:?}, last {:?}", bids.first(), self.bids.last());
         assert_eq!(bids.len(), 20);
         let mut bids_string = String::new();
         for (price, amount) in bids{
