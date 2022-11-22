@@ -73,7 +73,9 @@ impl OrderBookStore{
             println!("self.bids.len");
             let mut bids = self.bids.clone();
             let _ = bids.split_off(20);
-            bids
+            let res = bids;
+            println!(" res first {:?}, last {:?}", res.first(), res.last());
+            res
         } else {
             self.bids.clone()
         }
