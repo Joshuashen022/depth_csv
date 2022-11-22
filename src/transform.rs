@@ -70,6 +70,7 @@ impl OrderBookStore{
 
     fn bids_20(&self) -> Vec<(f64,f64)>{
         if self.bids.len() > 20 {
+            println!("self.bids.len");
             let mut bids = self.bids.clone();
             let _ = bids.split_off(20);
             bids
