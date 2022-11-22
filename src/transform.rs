@@ -34,7 +34,7 @@ pub struct OrderBookStoreCSV<'a>{
 impl OrderBookStore{
 
     fn ordered(&self) -> bool{
-        let mut price_last = self.asks.clone()[0].0;
+        let mut price_last = 0.0;
         let mut res1 = true;
         for &(price, _) in &self.asks{
             if !(price_last <= price){
@@ -52,7 +52,7 @@ impl OrderBookStore{
             price_last = price;
         }
 
-        res1 || res2
+        res1 && res2
     }
 
     fn asks_20(&self) -> Vec<(f64,f64)>{
