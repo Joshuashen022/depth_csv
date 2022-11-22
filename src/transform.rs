@@ -82,12 +82,12 @@ impl OrderBookStore{
     }
 
     pub fn csv(&self) -> OrderBookStoreCSV{
-        
+        println!(" asks first {:?}, last {:?}", self.asks.first(), self.asks.last());
         // println!(" bid first {:?}, last {:?}", self.bids.first(), self.bids.last());
 
         assert!(self.ordered());
         let asks = self.asks_20();
-        println!(" ask first {:?}, last {:?}", asks.first(), asks.last());
+        println!(" res first {:?}, last {:?}", asks.first(), asks.last());
         assert_eq!(asks.len(), 20);
 
         let mut asks_string = String::new();
@@ -97,7 +97,7 @@ impl OrderBookStore{
         asks_string.pop();
 
         let bids = self.bids_20();
-        println!(" bids first {:?}, last {:?}", bids.first(), self.bids.last());
+        // println!(" bids first {:?}, last {:?}", bids.first(), self.bids.last());
 
         assert_eq!(bids.len(), 20);
         let mut bids_string = String::new();
