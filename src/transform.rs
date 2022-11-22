@@ -80,7 +80,7 @@ impl OrderBookStore{
 
     pub fn csv(&self) -> OrderBookStoreCSV{
         // println!(" ask first {:?}, last {:?}", self.asks.first(), self.asks.last());
-        // println!(" bid first {:?}, last {:?}", self.bids.first(), self.bids.last());
+        println!(" bid first {:?}, last {:?}", self.bids.first(), self.bids.last());
 
         assert!(self.ordered());
         let asks = self.asks_20();
