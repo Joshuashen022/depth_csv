@@ -61,7 +61,7 @@ impl OrderBookStore{
         let ask_len = self.asks.len();
         if ask_len > 20 {
             let mut asks = self.asks.clone();
-            let asks = asks.split_off(ask_len - 20);
+            let _ = asks.split_off(ask_len - 20);
             asks
         } else{
             self.asks.clone()
@@ -79,8 +79,8 @@ impl OrderBookStore{
     }
 
     pub fn csv(&self) -> OrderBookStoreCSV{
-        println!(" ask first {:?}, last {:?}", self.asks.first(), self.asks.last());
-        println!(" bid first {:?}, last {:?}", self.bids.first(), self.bids.last());
+        // println!(" ask first {:?}, last {:?}", self.asks.first(), self.asks.last());
+        // println!(" bid first {:?}, last {:?}", self.bids.first(), self.bids.last());
 
         assert!(self.ordered());
         let asks = self.asks_20();
