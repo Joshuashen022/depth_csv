@@ -82,12 +82,12 @@ impl OrderBookStore{
     }
 
     pub fn csv(&self) -> OrderBookStoreCSV{
-        println!(" asks first {:?}, last {:?}", self.asks.first(), self.asks.last());
+        // println!(" asks first {:?}, last {:?}", self.asks.first(), self.asks.last());
         // println!(" bid first {:?}, last {:?}", self.bids.first(), self.bids.last());
 
         assert!(self.ordered());
         let asks = self.asks_20();
-        println!(" res first {:?}, last {:?}", asks.first(), asks.last());
+        // println!(" res first {:?}, last {:?}", asks.first(), asks.last());
         assert_eq!(asks.len(), 20);
 
         let mut asks_string = String::new();
@@ -110,8 +110,8 @@ impl OrderBookStore{
             last_update_id: self.last_update_id,
             send_time: self.send_time,
             receive_time: self.receive_time,
-            asks: Cow::Owned(asks_string),
             bids: Cow::Owned(bids_string),
+            asks: Cow::Owned(asks_string),
         }
     }
 }
