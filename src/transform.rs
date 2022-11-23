@@ -70,7 +70,7 @@ impl OrderBookStore{
 
     fn bids_20(&self) -> Vec<(f64,f64)>{
         if self.bids.len() > 20 {
-            println!("self.bids.len");
+            // println!("self.bids.len");
             let mut bids = self.bids.clone();
             let _ = bids.split_off(20);
             let res = bids;
@@ -82,8 +82,8 @@ impl OrderBookStore{
     }
 
     pub fn csv(&self) -> OrderBookStoreCSV{
-        println!(" asks first {:?}, last {:?}", self.asks.first(), self.asks.last());
-        println!(" bid first {:?}, last {:?}", self.bids.first(), self.bids.last());
+        // println!(" asks first {:?}, last {:?}", self.asks.first(), self.asks.last());
+        // println!(" bid first {:?}, last {:?}", self.bids.first(), self.bids.last());
 
         assert!(self.ordered());
         let asks = self.asks_20();

@@ -38,22 +38,22 @@ fn main() {
             }
         });
         
-        // let manager2 = DepthManager::new(exchange, symbol);
-        // let mut receiver = manager2.subscribe_depth();
-        // println!("using manager2 config {:?}", manager2.config);
+        let manager2 = DepthManager::new(exchange, symbol);
+        let mut receiver = manager2.subscribe_depth();
+        println!("using manager2 config {:?}", manager2.config);
 
-        // tokio::spawn(async move {
+        tokio::spawn(async move {
             
-        //     let mut wtr = Writer::from_path("normal.cache").unwrap();
+            let mut wtr = Writer::from_path("normal.cache").unwrap();
             
-        //     sleep(Duration::from_secs(2)).await;
+            sleep(Duration::from_secs(2)).await;
 
-        //     while let Some(message) = receiver.recv().await {
-        //         let message = transform_to_local(&message);
-        //         wtr.serialize(message.csv()).unwrap();
-        //         wtr.flush().unwrap();
-        //     }
-        // });
+            while let Some(message) = receiver.recv().await {
+                let message = transform_to_local(&message);
+                wtr.serialize(message.csv()).unwrap();
+                wtr.flush().unwrap();
+            }
+        });
 
         sleep(Duration::from_secs(3)).await;
 
