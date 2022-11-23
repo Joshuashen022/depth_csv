@@ -87,7 +87,7 @@ impl OrderBookStore{
 
         assert!(self.ordered());
         let asks = self.asks_20();
-        // println!(" res first {:?}, last {:?}", asks.first(), asks.last());
+        let asd_first = asks.first().unwrap().0;
         assert_eq!(asks.len(), 20);
 
         let mut asks_string = String::new();
@@ -97,9 +97,11 @@ impl OrderBookStore{
         asks_string.pop();
 
         let bids = self.bids_20();
+        let bid_last = bids.last().unwrap().0;
         // println!(" bids first {:?}, last {:?}", bids.first(), self.bids.last());
 
         assert_eq!(bids.len(), 20);
+        assert!(bid_last < asd_first);
         let mut bids_string = String::new();
         for (price, amount) in bids{
             bids_string += &format!("{},{},", price, amount);
