@@ -1,11 +1,11 @@
 mod transform;
 
-use tokio::runtime::Runtime;
-use tokio::time::{sleep, Duration};
 use csv::Writer;
 use quotation::DepthManager;
+use tokio::runtime::Runtime;
+use tokio::time::{sleep, Duration};
 
-use transform::{transform_to_local};
+use transform::transform_to_local;
 
 fn main() {
     println!("Hello");
@@ -27,7 +27,6 @@ fn main() {
         println!("using manager1 config {:?}", manager1.config);
 
         tokio::spawn(async move {
-            
             let mut wtr = Writer::from_path("depth.cache").unwrap();
 
             sleep(Duration::from_secs(2)).await;
@@ -37,15 +36,14 @@ fn main() {
                 wtr.flush().unwrap();
             }
         });
-        
+
         let manager2 = DepthManager::new(exchange, symbol);
         let mut receiver = manager2.subscribe_depth();
         println!("using manager2 config {:?}", manager2.config);
 
         tokio::spawn(async move {
-            
             let mut wtr = Writer::from_path("normal.cache").unwrap();
-            
+
             sleep(Duration::from_secs(2)).await;
 
             while let Some(message) = receiver.recv().await {

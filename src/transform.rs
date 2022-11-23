@@ -1,19 +1,19 @@
+use quotation::Depth;
 use serde::{Deserialize, Serialize};
 use std::borrow::Cow;
-use quotation::Depth;
 #[derive(Deserialize, Serialize, Debug)]
-pub struct OrderBookStore{
+pub struct OrderBookStore {
     pub last_update_id: i64,
     pub send_time: i64,
     pub receive_time: i64,
-    pub bids: Vec<(f64,f64)>, // price, amount
-    pub asks: Vec<(f64,f64)>,
+    pub bids: Vec<(f64, f64)>, // price, amount
+    pub asks: Vec<(f64, f64)>,
 }
 
-pub fn transform_to_local(quote: &Depth) -> OrderBookStore{
-    let bids :Vec<_> = quote.bids.iter().map(|x|(x.price,x.amount)).collect();
-    let asks :Vec<_> = quote.asks.iter().map(|x|(x.price,x.amount)).collect();
-    OrderBookStore{
+pub fn transform_to_local(quote: &Depth) -> OrderBookStore {
+    let bids: Vec<_> = quote.bids.iter().map(|x| (x.price, x.amount)).collect();
+    let asks: Vec<_> = quote.asks.iter().map(|x| (x.price, x.amount)).collect();
+    OrderBookStore {
         last_update_id: quote.id,
         send_time: quote.ts,
         receive_time: quote.lts,
@@ -23,7 +23,7 @@ pub fn transform_to_local(quote: &Depth) -> OrderBookStore{
 }
 
 #[derive(Deserialize, Serialize, Debug)]
-pub struct OrderBookStoreCSV<'a>{
+pub struct OrderBookStoreCSV<'a> {
     pub last_update_id: i64,
     pub send_time: i64,
     pub receive_time: i64,
@@ -31,13 +31,12 @@ pub struct OrderBookStoreCSV<'a>{
     pub asks: Cow<'a, str>,
 }
 
-impl OrderBookStore{
-
-    fn ordered(&self) -> bool{
+impl OrderBookStore {
+    fn ordered(&self) -> bool {
         let mut price_last = 0.0;
         let mut res1 = true;
-        for &(price, _) in &self.asks{
-            if !(price_last <= price){
+        for &(price, _) in &self.asks {
+            if !(price_last <= price) {
                 res1 = false;
                 break;
             }
@@ -46,8 +45,8 @@ impl OrderBookStore{
 
         let mut price_last = self.bids.clone()[0].0;
         let mut res2 = true;
-        for &(price, _) in &self.bids{
-            if !(price_last >= price){
+        for &(price, _) in &self.bids {
+            if !(price_last >= price) {
                 res2 = false;
                 break;
             }
@@ -57,31 +56,31 @@ impl OrderBookStore{
         res1 && res2
     }
 
-    fn asks_20(&self) -> Vec<(f64,f64)>{
+    fn asks_20(&self) -> Vec<(f64, f64)> {
         let ask_len = self.asks.len();
         if ask_len > 20 {
             let mut asks = self.asks.clone();
             let _ = asks.split_off(20);
             asks
-        } else{
+        } else {
             self.asks.clone()
         }
     }
 
-    fn bids_20(&self) -> Vec<(f64,f64)>{
+    fn bids_20(&self) -> Vec<(f64, f64)> {
         if self.bids.len() > 20 {
             // println!("self.bids.len");
             let mut bids = self.bids.clone();
             let _ = bids.split_off(20);
             let res = bids;
-            
+
             res
         } else {
             self.bids.clone()
         }
     }
 
-    pub fn csv(&self) -> OrderBookStoreCSV{
+    pub fn csv(&self) -> OrderBookStoreCSV {
         // println!(" asks first {:?}, last {:?}", self.asks.first(), self.asks.last());
         // println!(" bid first {:?}, last {:?}", self.bids.first(), self.bids.last());
 
@@ -91,7 +90,7 @@ impl OrderBookStore{
         assert_eq!(asks.len(), 20);
 
         let mut asks_string = String::new();
-        for (price, amount) in asks{
+        for (price, amount) in asks {
             asks_string += &format!("{},{},", price, amount);
         }
         asks_string.pop();
@@ -101,14 +100,14 @@ impl OrderBookStore{
         // println!(" bids first {:?}, last {:?}", bids.first(), self.bids.last());
 
         assert_eq!(bids.len(), 20);
-        assert!(bid_last < asd_first);
+        assert!(bid_last < asd_first, "{} < {} failed", bid_last, asd_first);
         let mut bids_string = String::new();
-        for (price, amount) in bids{
+        for (price, amount) in bids {
             bids_string += &format!("{},{},", price, amount);
         }
         bids_string.pop();
 
-        OrderBookStoreCSV{
+        OrderBookStoreCSV {
             last_update_id: self.last_update_id,
             send_time: self.send_time,
             receive_time: self.receive_time,
