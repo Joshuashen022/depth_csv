@@ -23,7 +23,7 @@ fn main() {
         println!("using symbol {}", symbol);
 
         let manager1 = DepthManager::with_snapshot(exchange, symbol, 1000);
-        let mut receiver = manager1.subscribe_depth();
+        let mut receiver = manager1.subscribe();
         println!("using manager1 config {:?}", manager1.config);
 
         tokio::spawn(async move {
@@ -38,14 +38,13 @@ fn main() {
         });
 
         let manager2 = DepthManager::new(exchange, symbol);
-        let mut receiver = manager2.subscribe_depth();
+        let mut receiver = manager2.subscribe();
         println!("using manager2 config {:?}", manager2.config);
 
         tokio::spawn(async move {
             let mut wtr = Writer::from_path("normal.cache").unwrap();
 
             sleep(Duration::from_secs(2)).await;
-
             while let Some(message) = receiver.recv().await {
                 let message = transform_to_local(&message);
                 wtr.serialize(message.csv()).unwrap();
@@ -54,11 +53,16 @@ fn main() {
         });
 
         sleep(Duration::from_secs(3)).await;
-
+        let mut counter = 0;
         loop {
+            if counter > 7{
+                println!("Done !");
+                break;
+            }
             println!();
             println!();
             sleep(Duration::from_secs(1)).await;
+            counter += 1;
         }
     })
 }
