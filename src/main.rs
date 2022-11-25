@@ -53,16 +53,12 @@ fn main() {
         });
 
         sleep(Duration::from_secs(3)).await;
-        let mut counter = 0;
+
         loop {
-            if counter > 7{
-                println!("Done !");
-                break;
-            }
+
             println!();
             println!();
             sleep(Duration::from_secs(1)).await;
-            counter += 1;
         }
     })
 }

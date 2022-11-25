@@ -13,6 +13,10 @@ path = "src/normal.rs"
 name = "depth"
 path = "src/depth.rs"
 
+[[bin]] # Bin to run the HelloWorld gRPC client
+name = "thread"
+path = "src/thread.rs"
+
 
 [dependencies]
 tokio = { version = "1.19.2", features = ["full"] }
