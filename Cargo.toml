@@ -5,6 +5,15 @@ edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+[[bin]] # Bin to run the HelloWorld gRPC client
+name = "normal"
+path = "src/normal.rs"
+
+[[bin]] # Bin to run the HelloWorld gRPC client
+name = "depth"
+path = "src/depth.rs"
+
+
 [dependencies]
 tokio = { version = "1.19.2", features = ["full"] }
 quotation = {path = "../../company/quotation"}
