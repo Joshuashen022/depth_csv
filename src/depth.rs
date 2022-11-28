@@ -39,5 +39,7 @@ fn main() {
 
 
         sleep(Duration::from_secs(1800)).await;
-    })
+    });
+
+    println!("Depth Done");
 }
