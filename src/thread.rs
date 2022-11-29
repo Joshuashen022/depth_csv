@@ -5,7 +5,6 @@ use quotation::DepthManager;
 use tokio::runtime::Runtime;
 use tokio::runtime;
 use tokio::time::{sleep, Duration};
-use std::thread;
 
 use transform::transform_to_local;
 
@@ -55,9 +54,8 @@ fn main() {
             sleep(Duration::from_secs(1)).await;
             counter += 1;
         }
-    }
-);
-
+    });
+    println!("Thread1 done ");
     
     Runtime::new().unwrap().block_on(async {
         let exchange = "binance";
@@ -97,5 +95,6 @@ fn main() {
             sleep(Duration::from_secs(1)).await;
             counter += 1;
         }
-    })
+    });
+    println!("Thread2s done ");
 }
